@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://dy4qiscscoweb"]
+
+[ext_resource type="Script" path="res://shot.gd" id="1_kpu6v"]
+[ext_resource type="Texture2D" uid="uid://dnwry6qvajrgt" path="res://textures/warpshot.png" id="1_l4hi1"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_m7cf0"]
+bounce = 0.9
+absorbent = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_aqno0"]
+radius = 8.0
+
+[node name="Shot" type="RigidBody2D"]
+position = Vector2(8, 8)
+mass = 0.5
+physics_material_override = SubResource("PhysicsMaterial_m7cf0")
+gravity_scale = 0.0
+lock_rotation = true
+linear_damp = 1.0
+script = ExtResource("1_kpu6v")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_l4hi1")
+
+[node name="CollisionShape" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_aqno0")
+
+[node name="Label" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
+
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

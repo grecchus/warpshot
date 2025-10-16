@@ -1,0 +1,69 @@
+extends Node
+class_name PowerUp
+
+@onready var main = get_node("/root/Main")
+
+var expiration := 1
+var instant_effect := false
+const ADDITIONAL_SHOT := false
+
+var sprite_sheet_frame := Vector2i(0, 0)
+
+
+func _expire(player : Player):
+	player.power_up_expiration -= 1
+	if(player.power_up_expiration == 0):
+		player.power_up = null
+
+func on_shot(player : Player, shot : Shot):
+	pass
+
+func on_shot_stopped(player : Player, shot : Shot):
+	pass
+
+func on_contact(player : Player) -> bool:
+	return false
+
+func on_new_turn():
+	pass
+
+func explosion(position : Vector2, radius : float = 32.0):
+	var animation = load("res://explosion.tscn").instantiate()
+	self.add_child(animation)
+	animation.global_position = position
+	animation.set_explosion(radius * 2.0)
+	
+	var space = get_node("/root/Main").get_world_2d().direct_space_state
+	var intersected_objects : Array
+	var query = PhysicsShapeQueryParameters2D.new()
+	query.shape = CircleShape2D.new()
+	query.shape.radius = radius
+	query.transform = query.transform.translated(position)
+	intersected_objects = space.intersect_shape(query)
+	for object in intersected_objects:
+		if object["collider"] is Enemy:
+			var dist = (object["collider"].global_position - position).length()
+			object["collider"].queue_for_deletion(dist / radius * 0.5)
+	
+#var object_tile_array : Array = []
+	#var space = MAIN.get_world_2d().direct_space_state
+	#var excluded_rids : Array[RID] = [current_unit.get_rid()]
+	#while(start_pos != end_pos):
+		#var query = PhysicsRayQueryParameters2D.new()
+		#var intersected_object : Dictionary
+		#query.collide_with_areas = true
+		#query.exclude = excluded_rids
+		#query.from = MAIN.tm_to_global_position(start_pos)
+		#query.to = MAIN.tm_to_global_position(end_pos)
+		#
+		#intersected_object = space.intersect_ray(query)
+		#
+		#if(intersected_object.size() > 0):
+			#var obj_rid : RID = intersected_object["rid"]
+			#excluded_rids.append(obj_rid)
+			#if(intersected_object["collider"] is TileMapLayer): 
+				#var atl_coords = OBSTACLES.get_cell_atlas_coords(OBSTACLES.get_coords_for_body_rid(obj_rid))
+				#object_tile_array.append(OBSTACLES.get_coords_for_body_rid(obj_rid))
+				#if(atl_coords.y == TERRAIN.WALL1 || atl_coords.y == TERRAIN.WALL2): break
+		#else: break
+	#return object_tile_array

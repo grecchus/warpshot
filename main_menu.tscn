@@ -1,0 +1,109 @@
+[gd_scene load_steps=11 format=3 uid="uid://dkrf3k3nb7dxy"]
+
+[ext_resource type="Shader" path="res://transition_shader.gdshader" id="1_fpydd"]
+[ext_resource type="Script" path="res://main_menu.gd" id="2_aopuj"]
+[ext_resource type="Shader" path="res://warp_shader.gdshader" id="3_1tsoh"]
+[ext_resource type="Theme" uid="uid://tdty34fhq1tl" path="res://warp_theme.tres" id="4_18o5l"]
+[ext_resource type="Shader" path="res://gradient_font.gdshader" id="4_m2rbd"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_g4k1p"]
+shader = ExtResource("3_1tsoh")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7qrmd"]
+shader = ExtResource("4_m2rbd")
+shader_parameter/red = 1.0
+shader_parameter/green = 1.0
+shader_parameter/blue = 1.0
+shader_parameter/alpha = 1.0
+shader_parameter/shine_speed = 10.0
+
+[sub_resource type="Animation" id="Animation_va7gs"]
+resource_name = "transition"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_43su1"]
+_data = {
+"transition": SubResource("Animation_va7gs")
+}
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ae8nf"]
+shader = ExtResource("1_fpydd")
+shader_parameter/time = 1.0
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_aopuj")
+
+[node name="Background" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_g4k1p")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("4_18o5l")
+color = Color(0, 0.393476, 0.393476, 1)
+
+[node name="Highscore" type="Label" parent="."]
+material = SubResource("ShaderMaterial_7qrmd")
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.36
+anchor_right = 1.0
+anchor_bottom = 0.48
+theme = ExtResource("4_18o5l")
+text = "Highscore:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.16
+anchor_right = 1.0
+anchor_bottom = 0.379
+offset_top = -1.52588e-05
+offset_bottom = -47.2
+theme = ExtResource("4_18o5l")
+theme_override_colors/font_shadow_color = Color(0, 1, 1, 1)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = 4
+theme_override_font_sizes/font_size = 128
+text = "WARPSHOT"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PlayButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.3
+anchor_top = 0.52
+anchor_right = 0.7
+anchor_bottom = 0.614
+offset_top = -3.05176e-05
+offset_right = -6.10352e-05
+offset_bottom = -11.2
+theme = ExtResource("4_18o5l")
+theme_override_font_sizes/font_size = 48
+text = "PLAY"
+
+[node name="Transition" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_43su1")
+}
+
+[node name="Fade" type="ColorRect" parent="Transition"]
+visible = false
+material = SubResource("ShaderMaterial_ae8nf")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[connection signal="pressed" from="PlayButton" to="." method="_on_play_button_pressed"]

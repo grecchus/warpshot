@@ -1,0 +1,30 @@
+[gd_resource type="Theme" load_steps=5 format=3 uid="uid://tdty34fhq1tl"]
+
+[ext_resource type="FontFile" uid="uid://cqfobf8gboeyh" path="res://yoster.ttf" id="1_su6r3"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jv2vb"]
+bg_color = Color(0, 0.501961, 0.501961, 1)
+shadow_color = Color(0, 0, 0.501961, 1)
+shadow_size = 4
+shadow_offset = Vector2(4, 4)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y2tf5"]
+bg_color = Color(0, 1, 1, 1)
+shadow_color = Color(0, 0, 1, 1)
+shadow_size = 4
+shadow_offset = Vector2(4, 4)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4hl1e"]
+bg_color = Color(0.501961, 0.501961, 0.501961, 1)
+shadow_color = Color(0, 0, 0, 1)
+shadow_size = 4
+shadow_offset = Vector2(4, 4)
+
+[resource]
+default_font = ExtResource("1_su6r3")
+Button/colors/font_color = Color(1, 1, 1, 1)
+Button/styles/focus = null
+Button/styles/hover = SubResource("StyleBoxFlat_jv2vb")
+Button/styles/normal = SubResource("StyleBoxFlat_y2tf5")
+Button/styles/pressed = SubResource("StyleBoxFlat_4hl1e")
+Label/font_sizes/font_size = 40

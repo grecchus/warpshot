@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=3 uid="uid://bch7cs8pkpybg"]
+
+[ext_resource type="Script" path="res://orc.gd" id="1_3mrf3"]
+[ext_resource type="Texture2D" uid="uid://dk3q8vq1yviue" path="res://textures/orc.png" id="1_ndnpe"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_p1xom"]
+radius = 8.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_38tct"]
+radius = 8.0
+
+[node name="Orc" type="StaticBody2D"]
+process_mode = 1
+process_priority = 1
+position = Vector2(8, 8)
+collision_layer = 2
+script = ExtResource("1_3mrf3")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_ndnpe")
+hframes = 4
+
+[node name="CollisionShape" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_p1xom")
+
+[node name="PlayerDetection" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape" type="CollisionShape2D" parent="PlayerDetection"]
+shape = SubResource("CircleShape2D_38tct")
+
+[connection signal="body_entered" from="PlayerDetection" to="." method="_on_player_detection_body_entered"]
