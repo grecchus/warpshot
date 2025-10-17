@@ -6,6 +6,7 @@ var pu_node : PowerUp
 func _on_body_entered(body: Node2D) -> void:
 	if(body is Shot):
 		GV.pu_manager.give_power_up(pu_node)
+		GV.main.free_pu_spawnpoint(position)
 		self.queue_free()
 
 #DO POWER UPS

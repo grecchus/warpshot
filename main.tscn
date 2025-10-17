@@ -1,4 +1,4 @@
-[gd_scene load_steps=50 format=4 uid="uid://desw2lqdw2e6m"]
+[gd_scene load_steps=52 format=4 uid="uid://desw2lqdw2e6m"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_0dwys"]
 [ext_resource type="Script" path="res://enemies.gd" id="2_7w0fp"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://co55vl6c6r7bb" path="res://player.tscn" id="8_itflu"]
 [ext_resource type="Script" path="res://TilemapCollisionBaker.gd" id="12_axk36"]
 [ext_resource type="Theme" uid="uid://tdty34fhq1tl" path="res://warp_theme.tres" id="13_pheol"]
+[ext_resource type="Shader" path="res://gradient_font_pu.gdshader" id="14_wyn3s"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_e2uis"]
 texture = ExtResource("4_ydvlv")
@@ -532,6 +533,14 @@ font_color = Color(1, 0, 0, 1)
 outline_size = 16
 outline_color = Color(0.219608, 0, 0, 1)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7a2l8"]
+shader = ExtResource("14_wyn3s")
+shader_parameter/red = 1.0
+shader_parameter/green = 1.0
+shader_parameter/blue = 1.0
+shader_parameter/alpha = 1.0
+shader_parameter/shine_speed = 8.0
+
 [node name="Main" type="Node2D"]
 position = Vector2(64, 80)
 script = ExtResource("1_0dwys")
@@ -782,17 +791,33 @@ text = "RESTART"
 
 [node name="Highscore" type="Label" parent="UI_Canvas/UI"]
 layout_mode = 1
-anchors_preset = -1
+anchors_preset = 7
+anchor_left = 0.5
 anchor_top = 1.0
-anchor_right = 1.0
+anchor_right = 0.5
 anchor_bottom = 1.0
-offset_top = -23.0
+offset_left = -121.5
+offset_top = -41.0
+offset_right = 121.5
 grow_horizontal = 2
 grow_vertical = 0
 theme = ExtResource("13_pheol")
 text = "HIGHSCORE:"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="PowerUp" type="Label" parent="UI_Canvas/UI"]
+material = SubResource("ShaderMaterial_7a2l8")
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -64.0
+offset_right = 210.0
+offset_bottom = -23.0
+grow_vertical = 0
+theme = ExtResource("13_pheol")
+text = "Power Up:"
 
 [node name="Background" type="ColorRect" parent="."]
 show_behind_parent = true

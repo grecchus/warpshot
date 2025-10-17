@@ -23,6 +23,7 @@ const FIRST_TURN := true
 
 var enemy_spawnpoints : Array[Vector2i] = []
 var powerups_spawnpoints : Array[Vector2i] = []
+var free_pu_spawnpoints : Array[Vector2i] = []
 
 var astar_grid : AStarGrid2D
 var grid_offset : Vector2
@@ -108,6 +109,7 @@ func new_turn(is_first_turn := false):
 	$TurnTimer.paused = false
 	$TurnTimer.start(turn_time)
 	if(not is_first_turn): emit_signal("new_turn_signal")
+	free_pu_spawnpoints = powerups_spawnpoints.duplicate()
 
 func new_game():
 	get_tree().get_node_count_in_group("player")
@@ -158,6 +160,7 @@ func get_special_tiles():
 				enemy_spawnpoints.append(tile)
 			SPECIAL.POWERUP:
 				powerups_spawnpoints.append(tile)
+		free_pu_spawnpoints = powerups_spawnpoints.duplicate()
 		$Level/Tilemap.set_cell(tile, 1, Vector2i(0,atl_coords), 1) #sets special tiles to alternative, invisible variant
 		#set_cell(layer: int, coords: Vector2i, source_id: int = -1, atlas_coords: Vector2i = Vector2i(-1, -1), alternative_tile: int = 0)
 
@@ -206,13 +209,11 @@ func spawn_enemies():
 		new_enemy.add_to_group("enemies")
 
 func spawn_powerups():
-#	THEY CAN SPAWN ON TOP OF EACH OTHER - FIX THIS
-	if(powerups_spawnpoints.is_empty()): return
-	var temp_ps = powerups_spawnpoints.duplicate()
-	var new_powerups_nr = clamp(temp_ps.size() / 4, 1, temp_ps.size())
+	if(free_pu_spawnpoints.is_empty()): return
+	var new_powerups_nr = clamp(free_pu_spawnpoints.size() / 4, 1, free_pu_spawnpoints.size())
 	for np in new_powerups_nr:
-		var powerup_pos = temp_ps.pick_random()
-		temp_ps.erase(powerup_pos)
+		var powerup_pos = free_pu_spawnpoints.pick_random()
+		free_pu_spawnpoints.erase(powerup_pos)
 		#spawning
 #		set solid on spawn
 		powerup_pos = $Level/Tilemap.map_to_local(powerup_pos)
@@ -222,6 +223,7 @@ func spawn_powerups():
 		new_powerup.pu_node = $PowerUpManager.get_random_power_up()
 		new_powerup.sprite.frame_coords = new_powerup.pu_node.sprite_sheet_frame
 
+
 func spawn_player(player_pos := player_start_pos):
 	var player : Player = player_scene.instantiate()
 	player.position = player_pos
@@ -229,3 +231,10 @@ func spawn_player(player_pos := player_start_pos):
 	player.shot_released.connect(_on_player_shot_released)
 	player.shot_stopped.connect(_on_shot_stopped)
 	self.add_child(player)
+
+func free_pu_spawnpoint(pos : Vector2):
+	print("dzialam")
+	var tm_pos = $Level/Tilemap.local_to_map(pos - GV.tilemap_offset)
+	
+	if(free_pu_spawnpoints.has(tm_pos)): return
+	free_pu_spawnpoints.append(tm_pos)
