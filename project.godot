@@ -27,6 +27,10 @@ window/size/viewport_width=1280
 window/size/viewport_height=800
 window/stretch/mode="viewport"
 
+[filesystem]
+
+import/canvas_textures/default_texture_repeat=1
+
 [global_group]
 
 enemies=""
@@ -56,5 +60,6 @@ right_click={
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
+textures/canvas_textures/default_texture_repeat=1
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"

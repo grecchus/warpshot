@@ -1,0 +1,10 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://1yyeanpidhhi"]
+
+[ext_resource type="Shader" path="res://bounce_shader.gdshader" id="1_fxo44"]
+
+[resource]
+shader = ExtResource("1_fxo44")
+shader_parameter/red = 0.5
+shader_parameter/green = 0.5
+shader_parameter/blue = 0.5
+shader_parameter/alpha = 1.0

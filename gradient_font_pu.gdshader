@@ -9,9 +9,9 @@ uniform float shine_speed = 8.0;
 
 void fragment() {
 	vec4 text_color = texture(TEXTURE, UV);
-	
+
 	float gradient = sin(UV.x * 8.0 - TIME * shine_speed);
-	
+
 	vec4 color = vec4(gradient, green, blue, alpha);
 	COLOR = text_color * color;
 }

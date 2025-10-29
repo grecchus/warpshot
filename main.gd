@@ -46,7 +46,6 @@ func _ready() -> void:
 	
 func _process(delta: float) -> void:
 	var tl_to_tt : float = $TurnTimer.time_left / turn_time
-	$UI_Canvas/UI/TurnLabel.text = "TURN: " + str(turn)
 	$UI_Canvas/UI/Score.text = "SCORE: " + str(score)
 	$UI_Canvas/UI/TurnTime.scale.x = tl_to_tt
 	$UI_Canvas/UI/TurnTime.position.x = $UI_Canvas/UI/TurnTime.size.x * (1.0 - $UI_Canvas/UI/TurnTime.scale.x) / 2.0
@@ -233,7 +232,6 @@ func spawn_player(player_pos := player_start_pos):
 	self.add_child(player)
 
 func free_pu_spawnpoint(pos : Vector2):
-	print("dzialam")
 	var tm_pos = $Level/Tilemap.local_to_map(pos - GV.tilemap_offset)
 	
 	if(free_pu_spawnpoints.has(tm_pos)): return

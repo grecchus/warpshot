@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://cdihnlx1taejh"]
+[gd_scene load_steps=5 format=3 uid="uid://cdihnlx1taejh"]
 
 [ext_resource type="Script" path="res://power_up.gd" id="1_bs7gl"]
 [ext_resource type="Texture2D" uid="uid://d0bwv1q7xvmvr" path="res://textures/powerups.png" id="2_hnuvb"]
+[ext_resource type="Material" uid="uid://1yyeanpidhhi" path="res://bounce_shader.tres" id="2_viuc7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mpe8l"]
 size = Vector2(16, 16)
@@ -10,6 +11,7 @@ size = Vector2(16, 16)
 script = ExtResource("1_bs7gl")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+material = ExtResource("2_viuc7")
 position = Vector2(8, 8)
 texture = ExtResource("2_hnuvb")
 hframes = 4
