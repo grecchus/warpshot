@@ -33,14 +33,15 @@ signal new_turn_signal #emitted on every new turn except first turn
 
 
 func _ready() -> void:
+	GV.tilemap = get_level()
+	
 	astar_grid = _setup_astar()
-	GV.tilemap = $Level/Tilemap
 	GV.pu_manager = $PowerUpManager
 	GV.main = self
 	GV.astar_grid = astar_grid
-	GV.tilemap_offset = $Level/Tilemap.global_position
+	GV.tilemap_offset = GV.tilemap.global_position
 	GV.offset_in_tiles = Vector2i(GV.tilemap_offset / GV.TILE_SIZE)
-	GV.map_border = Vector2($Level/Tilemap.get_used_rect().end)*GV.TILE_SIZE + GV.tilemap_offset
+	GV.map_border = Vector2(GV.tilemap.get_used_rect().end)*GV.TILE_SIZE + GV.tilemap_offset
 	player_start_pos = $Player.position
 	new_game()
 	
@@ -54,9 +55,9 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		if event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
 			$TurnTimer.paused = !$TurnTimer.paused
-			#print($Level/Tilemap.local_to_map($Player.position))
-			#print(astar_grid.is_point_solid($Level/Tilemap.local_to_map(get_local_mouse_position())))
-			print("mouse pos: "+str($Level/Tilemap.local_to_map(get_local_mouse_position())))
+			#print(GV.tilemap.local_to_map($Player.position))
+			#print(astar_grid.is_point_solid(GV.tilemap.local_to_map(get_local_mouse_position())))
+			print("mouse pos: "+str(GV.tilemap.local_to_map(get_local_mouse_position())))
 			print(get_global_mouse_position())
 			#print(GV.tilemap_offset)
 			#print(GV.map_border)
@@ -147,26 +148,37 @@ func _on_enemy_hit(enemy : Enemy):
 #	Map setup
 ########################################################
 
+func get_level() -> TileMapLayer:
+	for c in $Level.get_children():
+		c.queue_free()
+	
+	var loaded_level = load("res://Levels/level1.tscn") #To be changed
+	var level_instance = loaded_level.instantiate()
+	$Level.add_child(level_instance)
+	
+	return level_instance.tilemap
+
+
 func get_special_tiles():
 	enemy_spawnpoints = []
 	powerups_spawnpoints = []
 	
-	var tiles : Array[Vector2i] = $Level/Tilemap.get_used_cells_by_id(TILEMAP_SOURCE.SPECIAL)
+	var tiles : Array[Vector2i] = GV.tilemap.get_used_cells_by_id(TILEMAP_SOURCE.SPECIAL)
 	for tile in tiles:
-		var atl_coords : int = $Level/Tilemap.get_cell_atlas_coords(tile).y
+		var atl_coords : int = GV.tilemap.get_cell_atlas_coords(tile).y
 		match atl_coords:
 			SPECIAL.SPAWNPOINT:
 				enemy_spawnpoints.append(tile)
 			SPECIAL.POWERUP:
 				powerups_spawnpoints.append(tile)
 		free_pu_spawnpoints = powerups_spawnpoints.duplicate()
-		$Level/Tilemap.set_cell(tile, 1, Vector2i(0,atl_coords), 1) #sets special tiles to alternative, invisible variant
+		GV.tilemap.set_cell(tile, 1, Vector2i(0,atl_coords), 1) #sets special tiles to alternative, invisible variant
 		#set_cell(layer: int, coords: Vector2i, source_id: int = -1, atlas_coords: Vector2i = Vector2i(-1, -1), alternative_tile: int = 0)
 
 func _setup_astar() -> AStarGrid2D:
 	var new_astar = AStarGrid2D.new()
-	var tiles = $Level/Tilemap.get_used_cells()
-	new_astar.region = $Level/Tilemap.get_used_rect()
+	var tiles = GV.tilemap.get_used_cells()
+	new_astar.region = GV.tilemap.get_used_rect()
 	new_astar.cell_size = GV.TILE_SIZE
 	new_astar.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_NEVER
 	new_astar.update()
@@ -200,7 +212,7 @@ func spawn_enemies():
 		#spawning
 #		set solid on spawn
 		astar_grid.set_point_solid(enemy_pos)
-		enemy_pos = $Level/Tilemap.map_to_local(enemy_pos)
+		enemy_pos = GV.tilemap.map_to_local(enemy_pos)
 		var new_enemy = enemy_scene.instantiate()
 		$Enemies.add_child(new_enemy)
 		new_enemy.position = enemy_pos + GV.tilemap_offset
@@ -215,7 +227,7 @@ func spawn_powerups():
 		free_pu_spawnpoints.erase(powerup_pos)
 		#spawning
 #		set solid on spawn
-		powerup_pos = $Level/Tilemap.map_to_local(powerup_pos)
+		powerup_pos = GV.tilemap.map_to_local(powerup_pos)
 		var new_powerup = powerup_scene.instantiate()
 		$PowerUps.add_child(new_powerup)
 		new_powerup.position = powerup_pos + GV.tilemap_offset
@@ -232,7 +244,7 @@ func spawn_player(player_pos := player_start_pos):
 	self.add_child(player)
 
 func free_pu_spawnpoint(pos : Vector2):
-	var tm_pos = $Level/Tilemap.local_to_map(pos - GV.tilemap_offset)
+	var tm_pos = GV.tilemap.local_to_map(pos - GV.tilemap_offset)
 	
 	if(free_pu_spawnpoints.has(tm_pos)): return
 	free_pu_spawnpoints.append(tm_pos)

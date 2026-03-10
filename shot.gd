@@ -26,5 +26,7 @@ func _physics_process(delta: float) -> void:
 
 
 func _on_body_entered(body: Node) -> void:
+	$BounceParticles.emitting
+	
 	if(body is Enemy):
 		emit_signal("enemy_hit", body)

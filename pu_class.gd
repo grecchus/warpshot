@@ -43,27 +43,4 @@ func explosion(position : Vector2, radius : float = 32.0):
 	for object in intersected_objects:
 		if object["collider"] is Enemy:
 			var dist = (object["collider"].global_position - position).length()
-			object["collider"].queue_for_deletion(dist / radius * 0.5)
-	
-#var object_tile_array : Array = []
-	#var space = MAIN.get_world_2d().direct_space_state
-	#var excluded_rids : Array[RID] = [current_unit.get_rid()]
-	#while(start_pos != end_pos):
-		#var query = PhysicsRayQueryParameters2D.new()
-		#var intersected_object : Dictionary
-		#query.collide_with_areas = true
-		#query.exclude = excluded_rids
-		#query.from = MAIN.tm_to_global_position(start_pos)
-		#query.to = MAIN.tm_to_global_position(end_pos)
-		#
-		#intersected_object = space.intersect_ray(query)
-		#
-		#if(intersected_object.size() > 0):
-			#var obj_rid : RID = intersected_object["rid"]
-			#excluded_rids.append(obj_rid)
-			#if(intersected_object["collider"] is TileMapLayer): 
-				#var atl_coords = OBSTACLES.get_cell_atlas_coords(OBSTACLES.get_coords_for_body_rid(obj_rid))
-				#object_tile_array.append(OBSTACLES.get_coords_for_body_rid(obj_rid))
-				#if(atl_coords.y == TERRAIN.WALL1 || atl_coords.y == TERRAIN.WALL2): break
-		#else: break
-	#return object_tile_array
+			object["collider"].queue_for_deletion(dist / radius)
