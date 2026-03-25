@@ -11,5 +11,6 @@ func _on_play_button_pressed() -> void:
 
 func load_highscore():
 	var file = FileAccess.open("user://highscore.dat", FileAccess.READ)
-	GV.highscore = file.get_64()
-	file.close()
+	if(file):
+		GV.highscore = file.get_64()
+		file.close()

@@ -46,6 +46,8 @@ func _ready() -> void:
 	new_game()
 	
 func _process(delta: float) -> void:
+	#$Label.text = str(get_local_mouse_position())
+	#$Label.position = get_local_mouse_position()
 	var tl_to_tt : float = $TurnTimer.time_left / turn_time
 	$UI_Canvas/UI/Score.text = "SCORE: " + str(score)
 	$UI_Canvas/UI/TurnTime.scale.x = tl_to_tt
@@ -152,7 +154,7 @@ func get_level() -> TileMapLayer:
 	for c in $Level.get_children():
 		c.queue_free()
 	
-	var loaded_level = load("res://Levels/level1.tscn") #To be changed
+	var loaded_level = load("res://Levels/level0.tscn") #To be changed
 	var level_instance = loaded_level.instantiate()
 	$Level.add_child(level_instance)
 	
@@ -202,6 +204,8 @@ func _draw() -> void:
 ########################################################
 
 func spawn_enemies():
+	for sp in enemy_spawnpoints:
+		if check_tile_for_player(sp): print(sp)
 	if(enemy_spawnpoints.is_empty()): return
 	var temp_es = enemy_spawnpoints.duplicate()
 	var new_enemies_nr = clamp(temp_es.size() / 3, 1, temp_es.size())
@@ -209,6 +213,9 @@ func spawn_enemies():
 	for ne in new_enemies_nr:
 		var enemy_pos = temp_es.pick_random()
 		temp_es.erase(enemy_pos)
+		while(check_tile_for_player(enemy_pos) and temp_es.size() > 0):
+			enemy_pos = temp_es.pick_random()
+			temp_es.erase(enemy_pos)
 		#spawning
 #		set solid on spawn
 		astar_grid.set_point_solid(enemy_pos)
@@ -220,13 +227,15 @@ func spawn_enemies():
 		new_enemy.add_to_group("enemies")
 
 func spawn_powerups():
+	for sp in enemy_spawnpoints:
+		print(check_tile_for_player(sp))
 	if(free_pu_spawnpoints.is_empty()): return
 	var new_powerups_nr = clamp(free_pu_spawnpoints.size() / 4, 1, free_pu_spawnpoints.size())
 	for np in new_powerups_nr:
 		var powerup_pos = free_pu_spawnpoints.pick_random()
 		free_pu_spawnpoints.erase(powerup_pos)
 		#spawning
-#		set solid on spawn
+		#set solid on spawn
 		powerup_pos = GV.tilemap.map_to_local(powerup_pos)
 		var new_powerup = powerup_scene.instantiate()
 		$PowerUps.add_child(new_powerup)
@@ -248,3 +257,16 @@ func free_pu_spawnpoint(pos : Vector2):
 	
 	if(free_pu_spawnpoints.has(tm_pos)): return
 	free_pu_spawnpoints.append(tm_pos)
+
+func check_tile_for_player(tile : Vector2i) -> bool:
+	var space = get_world_2d().direct_space_state
+	var intersected_objects : Array
+	var query = PhysicsShapeQueryParameters2D.new()
+	query.collision_mask = 2
+	query.shape = RectangleShape2D.new()
+	query.shape.size = GV.TILE_SIZE
+	query.transform = query.transform.translated(GV.tilemap.map_to_local(tile)+GV.tilemap_offset)
+	intersected_objects = space.intersect_shape(query)
+	for object in intersected_objects:
+		if object["collider"] is Player: return true
+	return false

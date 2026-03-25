@@ -2,6 +2,7 @@ extends Node
 var rng = RandomNumberGenerator.new()
 
 var saved_power_up : PowerUp
+var power_up_queue : Array[PowerUp]
 
 func give_power_up(power_up : PowerUp):
 	saved_power_up = power_up

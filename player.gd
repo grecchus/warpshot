@@ -34,7 +34,7 @@ func shoot(direction : Vector2, main_shot := true):
 	var diff = global_position - get_global_mouse_position()
 	var force_clamped = clamp(diff.length(), 0.0, max_tension)
 	shot = shot_scene.instantiate()
-	self.add_child(shot)
+	GV.main.add_child(shot)
 	shot.main_shot = main_shot
 	shot.global_position = self.global_position
 	shot.show_behind_parent = true

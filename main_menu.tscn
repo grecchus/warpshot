@@ -1,10 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://dkrf3k3nb7dxy"]
+[gd_scene format=3 uid="uid://dkrf3k3nb7dxy"]
 
-[ext_resource type="Shader" path="res://transition_shader.gdshader" id="1_fpydd"]
-[ext_resource type="Script" path="res://main_menu.gd" id="2_aopuj"]
-[ext_resource type="Shader" path="res://warp_shader.gdshader" id="3_1tsoh"]
+[ext_resource type="Shader" uid="uid://nrwbtbcta8hp" path="res://transition_shader.gdshader" id="1_fpydd"]
+[ext_resource type="Script" uid="uid://3bcw4pkrhsbg" path="res://main_menu.gd" id="2_aopuj"]
+[ext_resource type="Shader" uid="uid://bib0b65kf0qjo" path="res://warp_shader.gdshader" id="3_1tsoh"]
 [ext_resource type="Theme" uid="uid://tdty34fhq1tl" path="res://warp_theme.tres" id="4_18o5l"]
-[ext_resource type="Shader" path="res://gradient_font.gdshader" id="4_m2rbd"]
+[ext_resource type="Shader" uid="uid://5h5d35so3gwa" path="res://gradient_font.gdshader" id="4_m2rbd"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_g4k1p"]
 shader = ExtResource("3_1tsoh")
@@ -22,14 +22,14 @@ resource_name = "transition"
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_43su1"]
 _data = {
-"transition": SubResource("Animation_va7gs")
+&"transition": SubResource("Animation_va7gs")
 }
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ae8nf"]
 shader = ExtResource("1_fpydd")
 shader_parameter/time = 1.0
 
-[node name="MainMenu" type="Control"]
+[node name="MainMenu" type="Control" unique_id=1860953218]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -38,7 +38,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("2_aopuj")
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="Background" type="ColorRect" parent="." unique_id=594199499]
 material = SubResource("ShaderMaterial_g4k1p")
 layout_mode = 1
 anchors_preset = 15
@@ -49,7 +49,7 @@ grow_vertical = 2
 theme = ExtResource("4_18o5l")
 color = Color(0, 0.393476, 0.393476, 1)
 
-[node name="Highscore" type="Label" parent="."]
+[node name="Highscore" type="Label" parent="." unique_id=2078924347]
 material = SubResource("ShaderMaterial_7qrmd")
 layout_mode = 1
 anchors_preset = -1
@@ -61,7 +61,7 @@ text = "Highscore:"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Title" type="Label" parent="."]
+[node name="Title" type="Label" parent="." unique_id=2121906463]
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.16
@@ -78,7 +78,7 @@ text = "WARPSHOT"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PlayButton" type="Button" parent="."]
+[node name="PlayButton" type="Button" parent="." unique_id=1836326652]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.3
@@ -92,12 +92,10 @@ theme = ExtResource("4_18o5l")
 theme_override_font_sizes/font_size = 48
 text = "PLAY"
 
-[node name="Transition" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_43su1")
-}
+[node name="Transition" type="AnimationPlayer" parent="." unique_id=1674664756]
+libraries/ = SubResource("AnimationLibrary_43su1")
 
-[node name="Fade" type="ColorRect" parent="Transition"]
+[node name="Fade" type="ColorRect" parent="Transition" unique_id=2120844917]
 visible = false
 material = SubResource("ShaderMaterial_ae8nf")
 anchors_preset = 15

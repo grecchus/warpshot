@@ -1,15 +1,15 @@
-[gd_scene load_steps=13 format=3 uid="uid://desw2lqdw2e6m"]
+[gd_scene format=3 uid="uid://desw2lqdw2e6m"]
 
-[ext_resource type="Script" path="res://main.gd" id="1_0dwys"]
-[ext_resource type="Script" path="res://enemies.gd" id="2_7w0fp"]
-[ext_resource type="Script" path="res://power_up_manager.gd" id="3_bi4ek"]
-[ext_resource type="Script" path="res://ui.gd" id="4_qftny"]
-[ext_resource type="Script" path="res://power_ups/clone.gd" id="5_omrfx"]
-[ext_resource type="Script" path="res://power_ups/explosion.gd" id="6_87nf5"]
-[ext_resource type="Script" path="res://power_ups/shield.gd" id="7_ni1p4"]
+[ext_resource type="Script" uid="uid://c0da0uwcfy657" path="res://main.gd" id="1_0dwys"]
+[ext_resource type="Script" uid="uid://b1jkpfew3bal1" path="res://enemies.gd" id="2_7w0fp"]
+[ext_resource type="Script" uid="uid://c3o2kp558ejkw" path="res://power_up_manager.gd" id="3_bi4ek"]
+[ext_resource type="Script" uid="uid://kivn0i0a0xwx" path="res://ui.gd" id="4_qftny"]
+[ext_resource type="Script" uid="uid://bf02fccc4ltkx" path="res://power_ups/clone.gd" id="5_omrfx"]
+[ext_resource type="Script" uid="uid://cco2rkhft2k5p" path="res://power_ups/explosion.gd" id="6_87nf5"]
+[ext_resource type="Script" uid="uid://bxn4pb8kymmr0" path="res://power_ups/shield.gd" id="7_ni1p4"]
 [ext_resource type="PackedScene" uid="uid://co55vl6c6r7bb" path="res://player.tscn" id="8_itflu"]
 [ext_resource type="Theme" uid="uid://tdty34fhq1tl" path="res://warp_theme.tres" id="13_pheol"]
-[ext_resource type="Shader" path="res://gradient_font_pu.gdshader" id="14_wyn3s"]
+[ext_resource type="Shader" uid="uid://dbns42jhkgeqv" path="res://gradient_font_pu.gdshader" id="14_wyn3s"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_3brv3"]
 font_size = 32
@@ -25,40 +25,40 @@ shader_parameter/blue = 1.0
 shader_parameter/alpha = 1.0
 shader_parameter/shine_speed = 8.0
 
-[node name="Main" type="Node2D"]
+[node name="Main" type="Node2D" unique_id=1829782946]
 position = Vector2(64, 80)
 script = ExtResource("1_0dwys")
 
-[node name="TurnTimer" type="Timer" parent="."]
+[node name="TurnTimer" type="Timer" parent="." unique_id=1221142894]
 
-[node name="Enemies" type="Node" parent="."]
+[node name="Enemies" type="Node" parent="." unique_id=322366976]
 script = ExtResource("2_7w0fp")
 
-[node name="PowerUps" type="Node" parent="."]
+[node name="PowerUps" type="Node" parent="." unique_id=620313244]
 
-[node name="PowerUpManager" type="Node" parent="."]
+[node name="PowerUpManager" type="Node" parent="." unique_id=266154587]
 script = ExtResource("3_bi4ek")
 
-[node name="Clone" type="Node" parent="PowerUpManager"]
+[node name="Clone" type="Node" parent="PowerUpManager" unique_id=987120846]
 script = ExtResource("5_omrfx")
 
-[node name="Explosion" type="Node" parent="PowerUpManager"]
+[node name="Explosion" type="Node" parent="PowerUpManager" unique_id=1307148561]
 script = ExtResource("6_87nf5")
 
-[node name="Shield" type="Node" parent="PowerUpManager"]
+[node name="Shield" type="Node" parent="PowerUpManager" unique_id=338885676]
 script = ExtResource("7_ni1p4")
 
-[node name="Player" parent="." instance=ExtResource("8_itflu")]
+[node name="Level" type="Node2D" parent="." unique_id=1668155318]
 
-[node name="Level" type="Node2D" parent="."]
+[node name="Player" parent="." unique_id=418113694 instance=ExtResource("8_itflu")]
 
-[node name="UI_Canvas" type="CanvasLayer" parent="."]
+[node name="UI_Canvas" type="CanvasLayer" parent="." unique_id=175360123]
 process_mode = 3
 follow_viewport_enabled = true
 script = ExtResource("4_qftny")
 metadata/_edit_use_anchors_ = true
 
-[node name="UI" type="Control" parent="UI_Canvas"]
+[node name="UI" type="Control" parent="UI_Canvas" unique_id=1278928561]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 1280.0
@@ -66,7 +66,7 @@ offset_bottom = 800.0
 mouse_filter = 1
 metadata/_edit_lock_ = true
 
-[node name="TurnTime" type="ColorRect" parent="UI_Canvas/UI"]
+[node name="TurnTime" type="ColorRect" parent="UI_Canvas/UI" unique_id=1280454127]
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.02
@@ -77,7 +77,7 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(1, 1, 0, 1)
 
-[node name="Score" type="Label" parent="UI_Canvas/UI"]
+[node name="Score" type="Label" parent="UI_Canvas/UI" unique_id=1930872463]
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.04
@@ -89,7 +89,7 @@ text = "Score:"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="GameOver" type="Control" parent="UI_Canvas/UI"]
+[node name="GameOver" type="Control" parent="UI_Canvas/UI" unique_id=659365210]
 visible = false
 layout_mode = 1
 anchor_top = 0.42
@@ -99,7 +99,7 @@ offset_bottom = -3.05176e-05
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="GameOverLabel" type="Label" parent="UI_Canvas/UI/GameOver"]
+[node name="GameOverLabel" type="Label" parent="UI_Canvas/UI/GameOver" unique_id=1077848691]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -110,7 +110,7 @@ label_settings = SubResource("LabelSettings_3brv3")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Restart" type="Button" parent="UI_Canvas/UI/GameOver"]
+[node name="Restart" type="Button" parent="UI_Canvas/UI/GameOver" unique_id=291816223]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -124,7 +124,7 @@ grow_horizontal = 2
 grow_vertical = 0
 text = "RESTART"
 
-[node name="Highscore" type="Label" parent="UI_Canvas/UI"]
+[node name="Highscore" type="Label" parent="UI_Canvas/UI" unique_id=2113563727]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -141,7 +141,7 @@ text = "HIGHSCORE:"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PowerUp" type="Label" parent="UI_Canvas/UI"]
+[node name="PowerUp" type="Label" parent="UI_Canvas/UI" unique_id=1439179931]
 material = SubResource("ShaderMaterial_7a2l8")
 layout_mode = 1
 anchors_preset = 2
@@ -154,7 +154,7 @@ grow_vertical = 0
 theme = ExtResource("13_pheol")
 text = "Power Up:"
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="Background" type="ColorRect" parent="." unique_id=18361494]
 show_behind_parent = true
 offset_left = -128.0
 offset_top = -128.0
@@ -163,6 +163,10 @@ offset_bottom = 832.0
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
 metadata/_edit_lock_ = true
+
+[node name="Label" type="Label" parent="." unique_id=1194993434]
+offset_right = 40.0
+offset_bottom = 23.0
 
 [connection signal="new_turn_signal" from="." to="PowerUpManager" method="_on_main_new_turn_signal"]
 [connection signal="timeout" from="TurnTimer" to="." method="_on_turn_timer_timeout"]

@@ -21,7 +21,8 @@ func on_shot(player : Player, shot : Shot):
 func on_shot_stopped(player : Player, shot : Shot):
 	if(not shot.main_shot and get_tree().get_node_count_in_group("player") < 3):
 		set_to_expire = true
-		get_node("/root/Main").spawn_player(shot.global_position - GV.tilemap_offset)
+		print(shot.position)
+		get_node("/root/Main").spawn_player(shot.position)
 
 func on_new_turn():
 	if(not set_to_expire): return
